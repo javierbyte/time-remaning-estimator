@@ -7,7 +7,7 @@ Estimate the time remaining for any process with known progress (Exponentially W
 ### Automatic Timestamp.
 ```js
 const estimator = new TimeRemainingEstimator({
-  total: 100
+  maxValue: 100
 })
 
 onProgress(function(newProgressValue) {
@@ -15,7 +15,7 @@ onProgress(function(newProgressValue) {
    * to improve estimation
    */
   estimator.add({
-    progress: newProgressValue
+    value: newProgressValue
   })
 
   estimator.calculate()
@@ -26,7 +26,7 @@ onProgress(function(newProgressValue) {
 ### Absolute Timestamp.
 ```js
 const estimator = new TimeRemainingEstimator({
-  total: 100,
+  maxValue: 100,
   time: processStartDate
 })
 
@@ -35,7 +35,7 @@ onProgress(function(newProgressValue) {
    * new points with the same time will override previous ones
    */
   estimator.add({
-    progress: newProgressValue,
+    value: newProgressValue,
     time: new Date()
   })
 
