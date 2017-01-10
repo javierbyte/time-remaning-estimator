@@ -4,13 +4,16 @@ Estimate the time remaining for any process with known progress (Exponentially W
 
 # Usage
 
+### Automatic Timestamp.
 ```js
-// with infered timestamp
 const estimator = new TimeRemainingEstimator({
-  total: 100,
+  total: 100
 })
 
 onProgress(function(newProgressValue) {
+  /* once you register progress, you can add it to the estimate
+   * to improve estimation
+   */
   estimator.add({
     progress: newProgressValue
   })
@@ -18,23 +21,30 @@ onProgress(function(newProgressValue) {
   estimator.calculate()
   // {finalDate: <dateObject>, remainingTime: <valueInMiliseconds>}
 })
+```
 
-// with absolute timestamp
+### Absolute Timestamp.
+```js
 const estimator = new TimeRemainingEstimator({
   total: 100,
   time: processStartDate
 })
 
 onProgress(function(newProgressValue) {
+  /* here you can add points at any time in any order
+   * new points with the same time will override previous ones
+   */
   estimator.add({
     progress: newProgressValue,
     time: new Date()
   })
 
-  estimator.calculate()
+  estimator.calculate({
+    time: new Date()
+  })
   // {finalDate: <dateObject>, remainingTime: <valueInMiliseconds>}
 })
 ```
 
 ## How it works.
-Implementation of https://en.wikipedia.org/wiki/EWMA_chart
+Implementation of https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
